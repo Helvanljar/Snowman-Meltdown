@@ -1,5 +1,3 @@
-# game_logic.py
-
 import random
 from ascii_art import STAGES
 
@@ -30,8 +28,16 @@ def play_game():
     print("Welcome to Snowman Meltdown!")
 
     while True:
+        print("\n" + "-"*20)
         display_game_state(mistakes, secret_word, guessed_letters)
+        print("-"*20 + "\n")
+
         guess = input("Guess a letter: ").lower()
+
+        # Input validation
+        if len(guess) != 1 or not guess.isalpha():
+            print("Please enter a single alphabetical character.")
+            continue
 
         if guess in guessed_letters:
             print("You already guessed that letter. Try again.")
@@ -47,8 +53,7 @@ def play_game():
 
         # Check for win
         if all(letter in guessed_letters for letter in secret_word):
-            display_game_state(mistakes, secret_word, guessed_letters)
-            print("Congratulations! You saved the snowman!")
+            print(f"Congratulations! You saved the snowman! The word was '{secret_word}'.")
             break
 
         # Check for loss
@@ -57,5 +62,13 @@ def play_game():
             print(f"Game over! The snowman melted. The word was '{secret_word}'.")
             break
 
+def main():
+    while True:
+        play_game()
+        replay = input("Do you want to play again? (y/n): ").lower()
+        if replay != 'y':
+            print("Thanks for playing Snowman Meltdown!")
+            break
+
 if __name__ == "__main__":
-    play_game()
+    main()
